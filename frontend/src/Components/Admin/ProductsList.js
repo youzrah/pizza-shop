@@ -5,22 +5,24 @@ import Sidebar from './SideBar'
 import { MDBDataTable } from 'mdbreact'
 import { Loading } from '../Layout/Loading'
 import { success, error } from '../Layout/Toast'
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const ProductList = () => {
 
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            // 'Authorization': `Bearer ${getToken()}`
+        }
+    }
+
     const getAdminProducts = async () => {
+        setLoading(true)
         try {
-
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    // 'Authorization': `Bearer ${getToken()}`
-                }
-            }
-
             const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/products`, config)
             console.log(data)
             setProducts(data.products)
@@ -32,13 +34,35 @@ const ProductList = () => {
         }
     }
 
-    const deleteProductHandler = () => {
+    const deleteProductHandler = (productId) => {
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        try {
+                            await axios.delete(`${process.env.REACT_APP_API}/api/v1/product/delete/${productId}`, config)
+                            success("Successfully deleted");
+                            getAdminProducts()
+                        } catch (err) {
+                            error("Failed to delete");
+                        }
 
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {}
+                }
+            ]
+        });
     }
 
     useEffect(() => {
         getAdminProducts()
-    }, []);
+    }, [loading]);
 
     const productsList = () => {
         const data = {
