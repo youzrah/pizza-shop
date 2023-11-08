@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import Sidebar from './SideBar'
 import { success, error } from '../Layout/Toast'
+import { useNavigate } from 'react-router-dom'
 
 const categories = [
-    'Neapolitan Pizza',
     'Neapolitan Pizza',
     'New York-Style Pizza',
     'Chicago-Style Pizza',
@@ -29,6 +29,8 @@ const ProductCreate = () => {
         stock: '',
     })
 
+    const navigate = useNavigate();
+    const [loadingButton, setLoadingButton] = useState(false)
     const [images, setImages] = useState([]);
     const [imagesPreview, setImagesPreview] = useState([])
 
@@ -73,7 +75,7 @@ const ProductCreate = () => {
     }
 
     const createProduct = async (productData) => {
-
+        setLoadingButton(true);
         try {
             const config = {
                 headers: {
@@ -84,10 +86,12 @@ const ProductCreate = () => {
 
             const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/product/new`, productData, config)
             success(data.message);
+            setLoadingButton(false)
+            navigate('/products/list')
         } catch (err) {
             error(err.response.data.message)
+            setLoadingButton(false)
         }
-
     }
 
     return (
@@ -143,13 +147,16 @@ const ProductCreate = () => {
                                         </label>
                                     </div>
                                 </div>
-                                <button type="submit" className="btn btn-primary">Submit</button>
+                                <button className="btn btn-primary" type="submit" disabled={loadingButton}>
+                                    {loadingButton ?
+                                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Create Product</span>}
+                                </button>
                             </form>
                         </div>
                         <div className='col-lg-6 col-md-12'>
                             <p className="h2">Uploaded Image Will Show Up Below</p>
                             {imagesPreview.map(img => (
-                                <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="100" height="100" />
+                                <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="250" height="250" style={{ borderColor: 'black', borderStyle: 'solid' }} />
                             ))}
                         </div>
                     </div>
