@@ -1,6 +1,23 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import Sidebar from './SideBar'
-import { success } from '../Layout/Toast'
+import { success, error } from '../Layout/Toast'
+
+const categories = [
+    'Neapolitan Pizza',
+    'Neapolitan Pizza',
+    'New York-Style Pizza',
+    'Chicago-Style Pizza',
+    'Sicilian Pizza',
+    'Margherita Pizza',
+    'Pepperoni Pizza',
+    'Hawaiian Pizza',
+    'Vegetarian Pizza',
+    'Meat Lovers Pizza',
+    'BBQ Chicken Pizza',
+    'White Pizza',
+    'Seafood Pizza',
+]
 
 const ProductCreate = () => {
 
@@ -47,13 +64,32 @@ const ProductCreate = () => {
         formData.set('description', product.description);
         formData.set('category', product.category);
         formData.set('stock', product.stock);
-        success('Success')
-        // createProduct(formData)
+
+        images.forEach(image => {
+            formData.append('images', image)
+        })
+
+        createProduct(formData)
     }
 
     const createProduct = async (productData) => {
 
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${getToken()}`
+                }
+            }
+
+            const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/product/new`, productData, config)
+            success(data.message);
+        } catch (err) {
+            error(err.response.data.message)
+        }
+
     }
+
     return (
         <>
             <div className="row">
@@ -82,9 +118,9 @@ const ProductCreate = () => {
                                     <label htmlFor="category">Product Category</label>
                                     <select className="custom-select" id="category" name='category' onChange={onChange}>
                                         <option defaultValue>Select product category</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        {categories.map(category => (
+                                            <option key={category} value={category} >{category}</option>
+                                        ))}
                                     </select>
                                 </div>
                                 <div className="form-group">
