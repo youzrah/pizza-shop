@@ -38,9 +38,19 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Please select category for this pizza'],
         enum: {
             values: [
-                'Vegetarian',
-                'Non-vegetarian',
-                'Beverage'
+                'Neapolitan Pizza',
+                'Neapolitan Pizza',
+                'New York-Style Pizza',
+                'Chicago-Style Pizza',
+                'Sicilian Pizza',
+                'Margherita Pizza',
+                'Pepperoni Pizza',
+                'Hawaiian Pizza',
+                'Vegetarian Pizza',
+                'Meat Lovers Pizza',
+                'BBQ Chicken Pizza',
+                'White Pizza',
+                'Seafood Pizza',
             ],
             message: 'Please select correct category for pizza'
         }
