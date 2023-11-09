@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Loading } from './Layout/Loading'
 import { success, error } from './Layout/Toast'
 
-const Home = () => {
+const Home = ({ addItemToCart, cartItems }) => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -32,6 +32,13 @@ const Home = () => {
         getProducts()
     }, []);
 
+    const addToCart = (e) => {
+        const productId = e.target.getAttribute("data-product-id");
+        addItemToCart(productId)
+    }
+
+    localStorage.setItem('cartItems', JSON.stringify(cartItems))
+
     return (
         <div className="container-fluid">
             <div className="row justify-content-center mt-3">
@@ -49,8 +56,8 @@ const Home = () => {
                                 <p className="card-text">{product.description}</p>
                             </div>
                             <div className="card-footer" style={{ display: "flex", justifyContent: "space-between" }}>
-                                <a href="{{ route('add.cart', $product->id) }}" className="btn btn-outline-success">Add to Cart</a>
-                                <a href="{{ route('product.details', $product->id) }}" className="btn btn-outline-dark">Quick View</a>
+                                <button onClick={addToCart} className="btn btn-outline-success" data-product-id={product._id}>Add to Cart</button>
+                                <button className="btn btn-outline-dark">Quick View</button>
                             </div>
                         </div>
                     )
