@@ -10,6 +10,8 @@ import Header from './Components/Layout/Header'
 import Footer from './Components/Layout/Footer'
 import Login from './Components/User/Login';
 import Register from './Components/User/Register';
+import PasswordForgot from './Components/User/PasswordForgot';
+import PasswordReset from './Components/User/PasswordReset';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path='/forgot/password' element={<PasswordForgot />} />
+          <Route path='/reset/password/:token' element={<PasswordReset />} />
 
           {/* Admin Access */}
           <Route path="/dashboard" element={<Dashboard />} />

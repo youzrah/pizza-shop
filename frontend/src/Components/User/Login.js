@@ -52,7 +52,7 @@ const Login = () => {
                                 <input type="text" className="form-control" id="price" placeholder="Enter password" name='password' onChange={(e) => setPassword(e.target.value)} />
                             </div>
                             <div style={{ textAlign: 'right', marginBottom: '10px' }}>
-                                <Link>Forgot password?</Link>
+                                <Link to='/forgot/password' >Forgot password?</Link>
                             </div>
                             <div className="card-footer" style={{ display: "flex", justifyContent: "space-between" }}>
                                 <button type='submit' className="btn btn-outline-dark">Submit</button>
