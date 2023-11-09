@@ -185,8 +185,10 @@ exports.updateProfile = async (req, res, next) => {
 
 exports.allUsers = async (req, res, next) => {
   const users = await User.find();
+  const usersCount = users.length;
   res.status(200).json({
     success: true,
+    usersCount,
     users,
   });
 };
@@ -223,7 +225,7 @@ exports.updateUser = async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
-    role: req.body.role,
+    // role: req.body.role,
   };
   const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
     new: true,
@@ -232,5 +234,7 @@ exports.updateUser = async (req, res, next) => {
 
   return res.status(200).json({
     success: true,
+    // userName: user.name,
+    // userEmail: user.email,
   });
 };
