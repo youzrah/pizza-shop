@@ -1,6 +1,5 @@
 const sendToken = (user, statusCode, res) => {
     console.log(user)
-    // Create Jwt token
     const token = user.getJwtToken();
 
     // Options for cookie
