@@ -25,7 +25,6 @@ const Login = () => {
             console.log(data)
             success("Login Successfully")
             authenticate(data, () => navigate("/"))
-
         } catch (err) {
             error("Error Occured")
         }

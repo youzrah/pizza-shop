@@ -119,7 +119,8 @@ const Register = () => {
                             </div>
                             <button className="btn btn-outline-dark w-25" type="submit" disabled={loadingButton}>
                                 {loadingButton ?
-                                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Submit</span>}
+                                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Submit</span>
+                                }
                             </button>
                         </form>
                     </div>
