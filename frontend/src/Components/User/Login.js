@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { authenticate } from '../../utils/helpers'
 import axios from 'axios'
 import { toast } from 'react-toastify';
+import { success, error } from '../Layout/Toast';
 
 const Login = () => {
 
@@ -22,12 +23,11 @@ const Login = () => {
             }
             const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/login`, { email, password }, config)
             console.log(data)
+            success("Login Successfully")
             authenticate(data, () => navigate("/"))
 
-        } catch (error) {
-            toast.error("invalid user or password", {
-                position: toast.POSITION.BOTTOM_RIGHT
-            })
+        } catch (err) {
+            error("Error Occured")
         }
     }
     const submitHandler = (e) => {
@@ -46,11 +46,11 @@ const Login = () => {
                         <form style={{ height: 'fit-content' }} onSubmit={submitHandler}>
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
-                                <input type="text" className="form-control" id="name" placeholder="Enter email" name='email' />
+                                <input type="text" className="form-control" id="name" placeholder="Enter email" name='email' onChange={(e) => setEmail(e.target.value)} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="price">Password</label>
-                                <input type="text" className="form-control" id="price" placeholder="Enter password" name='password' />
+                                <input type="text" className="form-control" id="price" placeholder="Enter password" name='password' onChange={(e) => setPassword(e.target.value)} />
                             </div>
                             <div style={{ textAlign: 'right', marginBottom: '10px' }}>
                                 <Link>Forgot password?</Link>
