@@ -4,7 +4,7 @@ import { getUser, logout } from '../../utils/helpers';
 import axios from 'axios';
 import { success, error } from '../Layout/Toast';
 
-const Header = () => {
+const Header = ({ cartItems }) => {
 
     const [user, setUser] = useState('')
     const navigate = useNavigate()
@@ -44,7 +44,7 @@ const Header = () => {
                         <a className="nav-link" href="#">Link</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
                 <form className="form-inline my-2 my-lg-0 mr-5">
@@ -57,8 +57,12 @@ const Header = () => {
                             Hudda
                         </div>
                         <div className="dropdown-menu dropdown-menu-right" style={{ marginRight: "-20px" }}>
-                            <Link className="dropdown-item" type="button">Profile</Link>
-                            <Link className="dropdown-item" type="button">Cart(1)</Link>
+                            <Link to='/ako' className="dropdown-item" type="button">Profile</Link>
+                            <Link to='/cart' className="dropdown-item" type="button"> Cart {cartItems.length ? <span class="badge badge-pill badge-danger"> {cartItems.length}</span>
+                                :
+                                ""
+                            }
+                            </Link>
                             <Link className="dropdown-item" type="button">Orders</Link>
                             <Link className="dropdown-item" type="button" onClick={logoutHandler}>Logout</Link>
                         </div>

@@ -8,5 +8,5 @@ export const addToCart = async (e) => {
 
     let cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
     cartItems.push(data.product)
-
+    
 }   

@@ -29,7 +29,7 @@ function App() {
       : {},
   })
 
-  const addItemToCart = async (id, quantity = 1) => {
+  const addItemToCart = async (id, quantity = 1, type = "addItem") => {
 
     try {
       const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/${id}`)
@@ -59,9 +59,9 @@ function App() {
           cartItems: [...state.cartItems, item]
         })
       }
-
-      success('Item Added Successfully')
-
+      if (type === "addItem") {
+        success('Item Added Successfully')
+      }
     } catch (err) {
       error("Error Occured")
     }
@@ -74,6 +74,7 @@ function App() {
       cartItems: state.cartItems.filter(i => i.product !== id)
     })
     localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+    success('Item Remove Successfully')
   }
 
   const saveShippingInfo = async (data) => {
@@ -88,7 +89,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header />
+        <Header cartItems={state.cartItems} />
         <Routes>
 
           {/* User Access */}

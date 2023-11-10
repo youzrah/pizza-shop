@@ -1,6 +1,54 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Cart = ({ addItemToCart, cartItems, removeItemFromCart }) => {
+
+    const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    const shippingPrice = itemsPrice > 200 ? 0 : 25
+    const taxPrice = Number((0.05 * itemsPrice).toFixed(2))
+    const totalPrice = (itemsPrice + shippingPrice + taxPrice).toFixed(2)
+
+    const order = {
+        orderItems: cartItems,
+        itemsPrice,
+        shippingPrice,
+        taxPrice,
+        totalPrice
+    }
+
+    const createOrder = async () => {
+
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const address = `${e.target.address.value} ${e.target.city.value} ${e.target.postalCode.value} ${e.target.country.value}`
+        const number = `${e.target.gcash.value}`
+        console.log(number)
+    }
+
+    const removeItem = (id) => {
+
+        if (window.confirm("Are you sure you want to remove this item?")) {
+            removeItemFromCart(id)
+        } else {
+
+        }
+    }
+
+    const increaseQty = (id, quantity, stock) => {
+        const newQty = quantity + 1;
+        if (newQty > stock) return;
+        addItemToCart(id, newQty, "qty");
+    }
+
+    const decreaseQty = (id, quantity) => {
+        const newQty = quantity - 1;
+        if (newQty <= 0) return;
+        addItemToCart(id, newQty, "qty");
+    }
+
+    localStorage.setItem('cartItems', JSON.stringify(cartItems))
+
     return (
         <div className="container-fluid">
             <div className="row justify-content-center mt-3">
@@ -18,59 +66,74 @@ const Cart = ({ addItemToCart, cartItems, removeItemFromCart }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <p>No items</p>
-                                </td>
-                                <td>
-                                    <p>No items</p>
-                                </td>
-                                <td>
-                                    <p>No items</p>
-                                </td>
-                                <td>
-                                    <p>No items</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Pizza</td>
-                                <td className='d-flex'>
-                                    <button data-id="{{ $key }}"
-                                        className="btn btn-outline-success btn-sm sub mr-lg-3">-</button>
-                                    <input className="quantityform-control form-inline text-center w-50" disabled
-                                        value="10" />
-                                    <button data-id="{{ $key }}"
-                                        className="btn btn-outline-success btn-sm add ml-lg-3">+</button>
-                                </td>
-                                <td className="item-price">200</td>
-                                <td>
-                                    <a href="#!" className="btn btn-danger btn-sm">Remove</a>
-                                </td>
-                            </tr>
+                            {cartItems.length < 1 ?
+                                <tr>
+                                    <td>
+                                        <p>No items</p>
+                                    </td>
+                                    <td>
+                                        <p>No items</p>
+                                    </td>
+                                    <td>
+                                        <p>No items</p>
+                                    </td>
+                                    <td>
+                                        <p>No items</p>
+                                    </td>
+                                </tr>
+                                :
+                                cartItems.map(item => (
+                                    <tr key={item.product}>
+                                        <td>{item.name}</td>
+                                        <td className='d-flex'>
+                                            <button className="btn btn-outline-success btn-sm sub mr-lg-3" onClick={() => decreaseQty(item.product, item.quantity)}>-</button>
+                                            <input className="quantityform-control form-inline text-center w-50" disabled
+                                                value={item.quantity} />
+                                            <button className="btn btn-outline-success btn-sm add ml-lg-3" onClick={() => increaseQty(item.product, item.quantity, item.stock)}>+</button>
+                                        </td>
+                                        <td className="item-price">{item.quantity * item.price}</td>
+                                        <td>
+                                            <button onClick={() => removeItem(item.product)} className="btn btn-danger btn-sm">Remove</button>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>
                 <div className="col-lg-5">
-                    <form id="checkoutForm" method="POST">
+                    <form id="checkoutForm" method="POST" onSubmit={handleSubmit}>
                         <div className="checkout-card card border-dark mb-3 w-100">
                             <div className="card-header bg-body-secondary border-dark">Order Summary</div>
-                            <div className="card-body m-3">
-                                <div className="form-group form-cart">
-                                    <label htmlFor="address">Delivery Address </label> <i className="bi bi-info-circle"
-                                        data-toggle="tooltip" data-placement="top"
-                                        title="If you leave this blank, we deliver it to your home address"></i>
-                                    <input type="text" className="form-control" id="address"
+                            <div className="card-body m-3 row">
+                                <div className="form-group form-cart col-lg-12">
+                                    <label htmlFor="address">Address </label>
+                                    <input type="text" className="form-control form-control-sm" id="address"
                                         placeholder="Enter delivery address" name="address" />
                                 </div>
-                                <div className="form-group form-cart">
-                                    <label htmlFor="address">Payment Method</label>
-                                    <select className="form-control" id="payment" name="payment_id">
-                                        <option value="">Select payment method</option>
+                                <div className="form-group form-cart col-lg-12">
+                                    <label htmlFor="city">City</label>
+                                    <input type="text" className="form-control form-control-sm" id="city"
+                                        placeholder="Enter city" name="city" />
+                                </div>
+                                <div className="form-group form-cart col-lg-6">
+                                    <label htmlFor="postalCode">Postal Code </label>
+                                    <input type="text" className="form-control form-control-sm" id="postalCode"
+                                        placeholder="Enter postal code" name="postalCode" />
+                                </div>
+                                <div className="form-group form-cart col-lg-6">
+                                    <label htmlFor="country">Country</label>
+                                    <select className="form-control form-control-sm" id="country" name="country">
+                                        <option value="None">Select country</option>
+                                        <option value="philippines">Philippines</option>
                                     </select>
                                 </div>
-
-                                <h5 className="card-title"><span>Total Price </span><span
-                                    id="total-price">&#8369;200</span></h5>
+                                <div className="form-group form-cart col-lg-12">
+                                    <label htmlFor="gcash">Gcash Number</label>
+                                    <input type="text" className="form-control form-control-sm" id="gcash"
+                                        placeholder="Enter delivery address" name="gcash" />
+                                </div>
+                                <h5 className="card-title col-12"><span>Total Price </span><span
+                                    id="total-price">&#8369;{cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)}</span></h5>
                             </div>
                             <div className="card-footer bg-body-secondary border-dark">
                                 <a href="#!" className="btn btn-outline-danger">Remove

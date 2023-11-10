@@ -3,11 +3,11 @@ const jwt = require("jsonwebtoken");
 
 exports.isAuthenticatedUser = async (req, res, next) => {
 
-//   const jwtString = token.split(' ')[1]
-//    console.log("token", jwtString)
+  //   const jwtString = token.split(' ')[1]
+  //    console.log("token", jwtString)
   const { token } = req.cookies
 
-//   const token = req.header("Authorization").split(" ")[1];
+  //   const token = req.header("Authorization").split(" ")[1];
   if (!token) {
     return res
       .status(401)
