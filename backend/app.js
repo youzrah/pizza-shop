@@ -3,7 +3,8 @@ const app = express();
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const product = require('./routes/product')
-const user = require('./routes/user')
+const user = require('./routes/user');
+const order = require('./routes/order');
 
 
 app.use(cors())
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cookieParser());
 
 app.use('/api/v1', product)
+app.use('/api/v1', order)
 app.use('/api/v1', user)
 
 

@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
+import { countries } from 'countries-list'
+import { success, error } from '../Layout/Toast'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { getToken } from '../../utils/helpers'
 
-const Cart = ({ addItemToCart, cartItems, removeItemFromCart }) => {
+const Cart = ({ addItemToCart, cartItems, removeItemFromCart, removeAllFromCart }) => {
 
     const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
     const shippingPrice = itemsPrice > 200 ? 0 : 25
     const taxPrice = Number((0.05 * itemsPrice).toFixed(2))
     const totalPrice = (itemsPrice + shippingPrice + taxPrice).toFixed(2)
+    const countriesList = Object.values(countries)
+    const navigate = useNavigate();
 
     const order = {
         orderItems: cartItems,
@@ -15,15 +22,34 @@ const Cart = ({ addItemToCart, cartItems, removeItemFromCart }) => {
         totalPrice
     }
 
-    const createOrder = async () => {
-
+    const createOrder = async (order) => {
+        console.log(order)
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            }
+            const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/order/new`, order, config)
+            success('Order created');
+            navigate('/cart')
+        } catch (err) {
+            error(err.response.data.message)
+        }
     }
 
     const handleSubmit = (e) => {
+
         e.preventDefault();
         const address = `${e.target.address.value} ${e.target.city.value} ${e.target.postalCode.value} ${e.target.country.value}`
         const number = `${e.target.gcash.value}`
-        console.log(number)
+        order.shippingInfo = {
+            address,
+            phoneNo: number
+        }
+
+        createOrder(order)
     }
 
     const removeItem = (id) => {
@@ -124,7 +150,11 @@ const Cart = ({ addItemToCart, cartItems, removeItemFromCart }) => {
                                     <label htmlFor="country">Country</label>
                                     <select className="form-control form-control-sm" id="country" name="country">
                                         <option value="None">Select country</option>
-                                        <option value="philippines">Philippines</option>
+                                        {countriesList.map(country => (
+                                            <option key={country.name} value={country.name}>
+                                                {country.name}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
                                 <div className="form-group form-cart col-lg-12">
@@ -136,8 +166,8 @@ const Cart = ({ addItemToCart, cartItems, removeItemFromCart }) => {
                                     id="total-price">&#8369;{cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)}</span></h5>
                             </div>
                             <div className="card-footer bg-body-secondary border-dark">
-                                <a href="#!" className="btn btn-outline-danger">Remove
-                                    All</a>
+                                <div onClick={removeAllFromCart} className="btn btn-outline-danger">Remove
+                                    All</div>
                                 <button type="submit" id="checkout"
                                     className="btn btn-outline-success">Checkout</button>
                             </div>

@@ -17,6 +17,7 @@ import Profile from './Components/User/Profile';
 import { useState } from 'react';
 import axios from 'axios';
 import Cart from './Components/Cart/Cart';
+import UsersList from './Components/Admin/UsersList';
 
 function App() {
 
@@ -68,6 +69,17 @@ function App() {
 
   }
 
+  const removeAllFromCart = async () => {
+
+    if (window.confirm("Are you sure you want to empty your cart? ")) {
+      setState({
+        ...state,
+        cartItems: []
+      })
+      success("You have no items in cart")
+    }
+  }
+
   const removeItemFromCart = async (id) => {
     setState({
       ...state,
@@ -85,34 +97,35 @@ function App() {
     localStorage.setItem('shippingInfo', JSON.stringify(data))
   }
 
+  const hideHeader = window.location.pathname.startsWith('/admin');
 
   return (
     <div className="App">
       <Router>
-        <Header cartItems={state.cartItems} />
+        {!hideHeader && <Header cartItems={state.cartItems} />}
+        {/* <Header cartItems={state.cartItems} /> */}
         <Routes>
 
           {/* User Access */}
-          <Route path="/" element={<Home cartItems={state.cartItems} addItemToCart={addItemToCart} />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path='/forgot/password' element={<PasswordForgot />} />
-          <Route path='/reset/password/:token' element={<PasswordReset />} />
-          <Route path='/ako' element={<Profile />} />
-          <Route path='/cart' element={<Cart cartItems={state.cartItems} addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} />} />
+          <Route path="/" element={<Home cartItems={state.cartItems} addItemToCart={addItemToCart} />} exact="true" />
+          <Route path="/login" element={<Login />} exact="true" />
+          <Route path="/register" element={<Register />} exact="true" />
+          <Route path='/forgot/password' element={<PasswordForgot />} exact="true" />
+          <Route path='/reset/password/:token' element={<PasswordReset />} exact="true" />
+          <Route path='/ako' element={<Profile />} exact="true" />
+          <Route path='/cart' element={<Cart cartItems={state.cartItems} addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} removeAllFromCart={removeAllFromCart} />} exact="true" />
 
           {/* Admin Access */}
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path='/products/list' element={<ProductsList />} />
-          <Route path='/product/create' element={<ProductCreate />} />
-          <Route path='/product/update/:productId' element={<ProductUpdate />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path='/admin/products/list' element={<ProductsList />} />
+          <Route path='/admin/product/create' element={<ProductCreate />} />
+          <Route path='/admin/product/update/:productId' element={<ProductUpdate />} />
+          
+          <Route path='/admin/users/list' element={<UsersList />} />
+
         </Routes>
         <Footer />
       </Router>
-
-
-
-
 
       <ToastContainer
         position="top-right"

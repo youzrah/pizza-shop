@@ -58,7 +58,7 @@ const Header = ({ cartItems }) => {
                         </div>
                         <div className="dropdown-menu dropdown-menu-right" style={{ marginRight: "-20px" }}>
                             <Link to='/ako' className="dropdown-item" type="button">Profile</Link>
-                            <Link to='/cart' className="dropdown-item" type="button"> Cart {cartItems.length ? <span class="badge badge-pill badge-danger"> {cartItems.length}</span>
+                            <Link to='/cart' className="dropdown-item" type="button"> Cart {cartItems.length ? <span className="badge badge-pill badge-danger"> {cartItems.length}</span>
                                 :
                                 ""
                             }

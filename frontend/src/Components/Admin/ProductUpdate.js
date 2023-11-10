@@ -115,11 +115,8 @@ const ProductUpdate = () => {
     return (
         <>
             <div className="row">
-                <div className="col-12 col-md-2">
-                    <Sidebar />
-                </div>
-
-                <div className="col-12 col-md-10">
+                <Sidebar />
+                <div className="content">
                     <h1 className="my-4" >Update Product</h1>
                     <div className='row'>
                         <div className='col-lg-6 col-md-12'>

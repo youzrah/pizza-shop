@@ -2,6 +2,7 @@ const Order = require('../models/order');
 const Product = require('../models/product');
 
 exports.newOrder = async (req, res, next) => {
+    console.log(req.body)
     const {
         orderItems,
         shippingInfo,
@@ -9,7 +10,6 @@ exports.newOrder = async (req, res, next) => {
         taxPrice,
         shippingPrice,
         totalPrice,
-        paymentInfo
     } = req.body;
 
     const order = await Order.create({
@@ -19,7 +19,6 @@ exports.newOrder = async (req, res, next) => {
         taxPrice,
         shippingPrice,
         totalPrice,
-        paymentInfo,
         paidAt: Date.now(),
         user: req.user._id
     });
