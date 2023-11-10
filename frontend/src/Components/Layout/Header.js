@@ -54,7 +54,7 @@ const Header = ({ cartItems }) => {
                 {user ?
                     <div className="btn-group">
                         <div className="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Hudda
+                            {user.name}
                         </div>
                         <div className="dropdown-menu dropdown-menu-right" style={{ marginRight: "-20px" }}>
                             <Link to='/ako' className="dropdown-item" type="button">Profile</Link>

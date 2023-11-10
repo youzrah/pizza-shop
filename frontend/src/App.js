@@ -18,6 +18,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import Cart from './Components/Cart/Cart';
 import UsersList from './Components/Admin/UsersList';
+import UserCreate from './Components/Admin/UserCreate';
+import UserUpdate from './Components/Admin/UserUpdate';
 
 function App() {
 
@@ -120,8 +122,10 @@ function App() {
           <Route path='/admin/products/list' element={<ProductsList />} />
           <Route path='/admin/product/create' element={<ProductCreate />} />
           <Route path='/admin/product/update/:productId' element={<ProductUpdate />} />
-          
+
           <Route path='/admin/users/list' element={<UsersList />} />
+          <Route path='/admin/user/create' element={<UserCreate />} />
+          <Route path='/admin/user/update/:userId' element={<UserUpdate />} />
 
         </Routes>
         <Footer />

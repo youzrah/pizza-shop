@@ -22,9 +22,15 @@ const Login = () => {
                 }
             }
             const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/login`, { email, password }, config)
-            console.log(data)
+            console.log(data.user.role);
+            if (data.user.role.toLocaleLowerCase() === 'admin'.toLocaleLowerCase()) {
+                authenticate(data, () => navigate("/admin/dashboard"))
+                window.location.reload()
+            } else {
+                authenticate(data, () => navigate("/"))
+            }
             success("Login Successfully")
-            authenticate(data, () => navigate("/"))
+
         } catch (err) {
             error("Error Occured")
         }

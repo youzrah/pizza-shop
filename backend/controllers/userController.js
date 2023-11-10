@@ -228,15 +228,43 @@ exports.deleteUser = async (req, res, next) => {
 };
 
 exports.updateUser = async (req, res, next) => {
+
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
-    // role: req.body.role,
+    role: req.body.role
   };
-  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+
+  const user = await User.findById(req.params.id);
+
+  // newUserData.name = newUserData.name || user.name
+  // newUserData.email = newUserData.email || user.email
+
+  if (req.body.avatar !== "") {
+
+    const image_id = user.avatar.public_id;
+    const res = await cloudinary.v2.uploader.destroy(image_id);
+
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+      width: 400,
+      // crop: "scale",
+    });
+
+    newUserData.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, newUserData, {
     new: true,
-    runValidators: true,
+    runValidators: false,
   });
+
+  if (!user) {
+    return res.status(401).json({ message: "User Not Updated" });
+  }
 
   return res.status(200).json({
     success: true,

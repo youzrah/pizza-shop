@@ -108,7 +108,7 @@ const UsersList = () => {
                 role: user.role,
                 createdAt: new Date(user.createdAt).toDateString(),
                 actions: <Fragment>
-                    <Link to={`admin/user/update/${user._id}`} className="btn btn-primary py-1 px-2">
+                    <Link to={`/admin/user/update/${user._id}`} className="btn btn-primary py-1 px-2">
                         <i className="fa fa-pencil"></i>
                     </Link>
                     <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteUserHandler(user._id)}>
@@ -126,10 +126,10 @@ const UsersList = () => {
                 <Sidebar />
                 <div className="content">
                     <div className='row'>
-                        <div className='col-12'>
-                            <h1 className="my-4" >List of Users</h1>
+                        <div className='col-6'>
+                            <h1 className="my-4 ml-3" >List of Users</h1>
                         </div>
-                        <div className='col-12'>
+                        <div className='col-6 d-flex align-items-end justify-content-end pr-5'>
                             <Link className='btn btn-success ml-3 mb-3' to='/admin/user/create'>Add New User</Link>
                         </div>
                         <div className='col-12'>
@@ -140,6 +140,8 @@ const UsersList = () => {
                                     bordered
                                     striped
                                     hover
+                                    responsive={true}
+                                    responsiveLg={true}
                                 />
                             )}
                         </div>

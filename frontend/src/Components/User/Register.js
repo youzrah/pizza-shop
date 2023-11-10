@@ -58,22 +58,29 @@ const Register = () => {
 
             const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/register`, userData, config)
             setLoadingButton(false)
-            success("Account created, you can login")
+            success("Account created")
             setUser(data.user)
-            navigate('/login')
-
+            if (!window.location.pathname.startsWith('/admin')) {
+                navigate('/login')
+            } else {
+                navigate('/admin/users/list')
+            }
         } catch (err) {
             setLoadingButton(false)
             setUser(null)
-            error("Failed to register")
+            error("Failed to create")
         }
     }
 
+    const hider = window.location.pathname.startsWith('/admin');
+
     return (
         <div className="container-fluid">
-            <div className="row justify-content-center mt-3">
-                <h1>Register</h1>
-            </div>
+            {!hider &&
+                <div className="row justify-content-center mt-3 register-top">
+                    <h1>Register</h1>
+                </div>
+            }
             <div className="row justify-content-center">
                 <div className="card col-lg-4 col-md-6 col-sm-12 m-2" >
                     <div className="card-body">
