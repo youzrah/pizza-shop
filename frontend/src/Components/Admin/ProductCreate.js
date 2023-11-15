@@ -87,7 +87,7 @@ const ProductCreate = () => {
             const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/product/new`, productData, config)
             success(data.message);
             setLoadingButton(false)
-            navigate('/products/list')
+            navigate('/admin/products/list')
         } catch (err) {
             error(err.response.data.message)
             setLoadingButton(false)

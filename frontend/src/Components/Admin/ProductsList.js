@@ -62,7 +62,7 @@ const ProductList = () => {
 
     useEffect(() => {
         getAdminProducts()
-    }, [loading]);
+    }, []);
 
     const productsList = () => {
         const data = {

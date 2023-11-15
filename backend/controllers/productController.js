@@ -123,7 +123,7 @@ exports.newProduct = async (req, res, next) => {
       ``
       const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
         folder: "products",
-        width: 150,
+        // width: 150,
         crop: "scale",
       });
 
