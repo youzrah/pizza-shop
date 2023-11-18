@@ -213,6 +213,7 @@ exports.getUserDetails = async (req, res, next) => {
   });
 };
 exports.deleteUser = async (req, res, next) => {
+
   const user = await User.findById(req.params.id);
   if (!user) {
     return res

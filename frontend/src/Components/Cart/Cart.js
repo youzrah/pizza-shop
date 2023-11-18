@@ -32,7 +32,9 @@ const Cart = ({ addItemToCart, cartItems, removeItemFromCart, removeAllFromCart 
                 }
             }
             const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/order/new`, order, config)
+            document.getElementById('checkoutForm').reset()
             success('Order created');
+            removeAllFromCart(1)
             navigate('/cart')
         } catch (err) {
             error(err.response.data.message)
@@ -160,7 +162,7 @@ const Cart = ({ addItemToCart, cartItems, removeItemFromCart, removeAllFromCart 
                                 <div className="form-group form-cart col-lg-12">
                                     <label htmlFor="gcash">Gcash Number</label>
                                     <input type="text" className="form-control form-control-sm" id="gcash"
-                                        placeholder="Enter delivery address" name="gcash" />
+                                        placeholder="Enter GCash Number" name="gcash" />
                                 </div>
                                 <h5 className="card-title col-12"><span>Total Price </span><span
                                     id="total-price">&#8369;{cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)}</span></h5>

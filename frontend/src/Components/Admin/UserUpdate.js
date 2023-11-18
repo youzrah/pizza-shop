@@ -104,8 +104,8 @@ const UserUpdate = () => {
                                 <div className="form-group">
                                     <label htmlFor="role">User Role</label>
                                     <select className="form-control" id="role" placeholder="Enter product description" name='role' onChange={onChange}>
-                                        <option selected={user.role == 'admin'}>Admin</option>
-                                        <option selected={user.role == 'user'}>User</option>
+                                        <option selected={user.role == 'admin'} value={'admin'}>Admin</option>
+                                        <option selected={user.role == 'user'} value={'user'}>User</option>
                                     </select>
                                 </div>
                                 <div className='form-group'>

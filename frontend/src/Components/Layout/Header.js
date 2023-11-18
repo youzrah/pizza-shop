@@ -37,33 +37,29 @@ const Header = ({ cartItems }) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
+                    {/* <li className="nav-item active">
                         <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Link</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Disabled</a>
-                    </li>
+                    </li> */}
                 </ul>
-                <form className="form-inline my-2 my-lg-0 mr-5">
+                {/* <form className="form-inline my-2 my-lg-0 mr-5">
                     <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
                     <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                </form> */}
                 {user ?
                     <div className="btn-group">
-                        <div className="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div className="btn btn-outline-success" style={{ textTransform: 'capitalize' }} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {user.name}
                         </div>
                         <div className="dropdown-menu dropdown-menu-right" style={{ marginRight: "-20px" }}>
+                            {user.role === 'admin' ?
+                                <Link to='/admin/dashboard' className="dropdown-item" type="button">Dashboard</Link> : ''
+                            }
                             <Link to='/ako' className="dropdown-item" type="button">Profile</Link>
                             <Link to='/cart' className="dropdown-item" type="button"> Cart {cartItems.length ? <span className="badge badge-pill badge-danger"> {cartItems.length}</span>
                                 :
                                 ""
                             }
                             </Link>
-                            <Link className="dropdown-item" type="button">Orders</Link>
                             <Link className="dropdown-item" type="button" onClick={logoutHandler}>Logout</Link>
                         </div>
                     </div> :

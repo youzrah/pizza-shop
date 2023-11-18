@@ -7,6 +7,7 @@ import { Loading } from '../Layout/Loading'
 import { success, error } from '../Layout/Toast'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { getToken } from '../../utils/helpers'
 
 const ProductList = () => {
 
@@ -16,7 +17,7 @@ const ProductList = () => {
     const config = {
         headers: {
             'Content-Type': 'multipart/form-data',
-            // 'Authorization': `Bearer ${getToken()}`
+            'Authorization': `Bearer ${getToken()}`
         }
     }
 

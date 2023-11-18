@@ -52,7 +52,7 @@ exports.myOrders = async (req, res, next) => {
 };
 
 exports.allOrders = async (req, res, next) => {
-    const orders = await Order.find();
+    const orders = await Order.find().populate('user');
 
     const totalAmount = orders.reduce((acc, order) => acc + order.totalPrice, 0);
 
@@ -65,7 +65,7 @@ exports.allOrders = async (req, res, next) => {
 
 exports.updateOrder = async (req, res, next) => {
     const order = await Order.findById(req.params.id);
-
+    console.log(req.body)
     if (order.orderStatus === 'Delivered') {
         return res.status(404).json({ message: `You have already delivered this order` });
     }

@@ -57,7 +57,7 @@ const Home = ({ addItemToCart, cartItems }) => {
                             </div>
                             <div className="card-footer" style={{ display: "flex", justifyContent: "space-between" }}>
                                 <button onClick={addToCart} className="btn btn-outline-success" data-product-id={product._id}>Add to Cart</button>
-                                <button className="btn btn-outline-dark">Quick View</button>
+                                {/* <button className="btn btn-outline-dark">Quick View</button> */}
                             </div>
                         </div>
                     )

@@ -26,7 +26,7 @@ router.put("/password/reset/:token", resetPassword);
 router.get("/me", isAuthenticatedUser, getUserProfile);
 router.get("/all/users", isAuthenticatedUser, allUsers);
 router.get("/user/details/:id", isAuthenticatedUser, getUserDetails);
-router.delete("/delete/user/:id", isAuthenticatedUser, deleteUser);
+router.delete("/delete/user/:id", isAuthenticatedUser, authorizeRoles('admin'), deleteUser);
 router.put("/update/user/:id", isAuthenticatedUser, updateUser);
 router.put("/update/profile/:id", isAuthenticatedUser, upload.single("avatar"), updateProfile);
 

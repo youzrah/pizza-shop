@@ -20,6 +20,7 @@ import Cart from './Components/Cart/Cart';
 import UsersList from './Components/Admin/UsersList';
 import UserCreate from './Components/Admin/UserCreate';
 import UserUpdate from './Components/Admin/UserUpdate';
+import OrdersList from './Components/Admin/OrdersList';
 
 function App() {
 
@@ -71,15 +72,23 @@ function App() {
 
   }
 
-  const removeAllFromCart = async () => {
+  const removeAllFromCart = async (id = 0) => {
 
-    if (window.confirm("Are you sure you want to empty your cart? ")) {
+    if (id = 1) {
       setState({
         ...state,
         cartItems: []
       })
-      success("You have no items in cart")
+    } else {
+      if (window.confirm("Are you sure you want to empty your cart? ")) {
+        setState({
+          ...state,
+          cartItems: []
+        })
+        success("You have no items in cart")
+      }
     }
+
   }
 
   const removeItemFromCart = async (id) => {
@@ -127,6 +136,7 @@ function App() {
           <Route path='/admin/user/create' element={<UserCreate />} />
           <Route path='/admin/user/update/:userId' element={<UserUpdate />} />
 
+          <Route path='/admin/orders' element={<OrdersList />} />
         </Routes>
         <Footer />
       </Router>

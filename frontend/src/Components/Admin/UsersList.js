@@ -34,7 +34,7 @@ const UsersList = () => {
         }
     }
 
-    const deleteUserHandler = (productId) => {
+    const deleteUserHandler = (id) => {
         confirmAlert({
             title: 'Confirm to submit',
             message: 'Are you sure to do this.',
@@ -43,11 +43,11 @@ const UsersList = () => {
                     label: 'Yes',
                     onClick: async () => {
                         try {
-                            // await axios.delete(`${process.env.REACT_APP_API}/api/v1/product/delete/${productId}`, config)
+                            await axios.delete(`${process.env.REACT_APP_API}/api/v1/delete/user/${id}`, config)
                             success("Successfully deleted");
                             getAllUsers()
                         } catch (err) {
-                            error("Failed to delete");
+                            error(err.response.data.message)
                         }
 
                     }
