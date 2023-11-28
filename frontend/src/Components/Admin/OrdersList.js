@@ -127,7 +127,7 @@ const OrdersList = () => {
             const formattedItems = order.orderItems ? order.orderItems.map(item => item.name).join(', ') : '';
             data.rows.push({
                 id: order._id,
-                user: order.user.name,
+                user: order.orderItems.name,
                 items: formattedItems,
                 taxPrice: `₱${order.taxPrice}`,
                 shippingPrice: `₱${order.shippingPrice}`,
@@ -155,7 +155,8 @@ const OrdersList = () => {
                     }
 
                 </Fragment>
-            })
+            }
+            )
         })
 
         return data;

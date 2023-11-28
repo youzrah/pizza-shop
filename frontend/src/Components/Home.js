@@ -42,7 +42,7 @@ const Home = ({ addItemToCart, cartItems }) => {
     return (
         <div className="container-fluid">
             <div className="row justify-content-center mt-3">
-                <h1>Avaiable Pizza</h1>
+                <h1>AVAILABLE PIZZAS</h1>
             </div>
             <div className="row justify-content-center ">
                 {products.map((product) => {

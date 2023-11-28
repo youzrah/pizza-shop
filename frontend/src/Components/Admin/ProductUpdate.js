@@ -105,7 +105,7 @@ const ProductUpdate = () => {
             const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/product/update/${productId}`, productData, config)
             success("Updated Successfully");
             setLoadingButton(false)
-            navigate('/products/list')
+            navigate('/admin/products/list')
         } catch (err) {
             error(err.response.data.message)
             setLoadingButton(false)
